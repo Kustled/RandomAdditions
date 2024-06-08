@@ -1,0 +1,6 @@
+name: randomadditions
+version: '${project.version}'
+main: me.kustled.radditions.Randomadditions
+api-version: '1.20'
+authors: [Kustled]
+description: A plugin that adds some things that I thought would be cool.
