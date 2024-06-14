@@ -1,0 +1,9 @@
+XP:
+  # This will edit the initial xp amount for each tool
+  # (Default is 200)
+  initial-xp-amount: 200
+  # This is the value that adds up per level. For example, the 
+  # default is 50, then with each level up, the amount of XP
+  # needed to get to the next level would be:
+  # initial-xp-amount + [add-xp-amount * the current level]
+  additive-xp-amount: 50

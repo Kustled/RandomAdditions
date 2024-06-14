@@ -1,6 +1,7 @@
 package me.kustled.radditions;
 
 import me.kustled.radditions.events.LevelCheckEvent;
+import me.kustled.radditions.files.XpConfigFile;
 import me.kustled.radditions.util.DelayedTask;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -39,9 +40,16 @@ public final class Randomadditions extends JavaPlugin implements Listener {
 
         //configurar config
         FileConfiguration config = this.getConfig();
+        List<String> headerS = new ArrayList<String>();
+        headerS.add("This is the default configuration file.");
+        headerS.add("You can edit if charged creepers spawn naturally, and");
+        headerS.add("edit the chance of it happening (Default is 1 in 1024).");
+        config.options().setHeader(headerS);
         config.addDefault("spawnChargedCreeperNaturally", true);
+        config.addDefault("spawnChargedCreeperChance", 1024);
         config.options().copyDefaults(true);
         saveConfig();
+        XpConfigFile.getInstance().load();
 
         //aço itemstack
         ItemStack steel = new ItemStack(Material.IRON_INGOT);
@@ -445,7 +453,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
             if (this.getConfig().getBoolean("spawnChargedCreeperNaturally")) {
 
             Random rand = new Random();
-            if(rand.nextInt(1024) == 1){
+            if(rand.nextInt(this.getConfig().getInt("spawnChargedCreeperChance")) == 1){
                 ((Creeper) event.getEntity()).setPowered(true);
             }}
         } else if(event.getEntity().getType().equals(EntityType.SKELETON)){
@@ -548,7 +556,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, 200);
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
                       List<String> resultLore = changedResultStackMeta.getLore();
                       resultLore.add(ChatColor.AQUA + "Infused with XP");
                       changedResultStackMeta.setLore(resultLore);
@@ -564,7 +572,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, 200);
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
                       changedResultStackMeta.setLore(resultLore);
                       changedResultStack.setItemMeta(changedResultStackMeta);
                       event.setResult(changedResultStack);
@@ -578,7 +586,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, 200);
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
                       ArrayList<String> resultLore = (ArrayList<String>) changedResultStackMeta.getLore();
                       resultLore.add(ChatColor.AQUA + "Infused with XP");
                       changedResultStackMeta.setLore(resultLore);
@@ -594,7 +602,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, 200);
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
                       changedResultStackMeta.setLore(resultLore);
                       changedResultStack.setItemMeta(changedResultStackMeta);
                       event.setResult(changedResultStack);
@@ -704,7 +712,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
             if(currentXP >= nextLevelXP) {
                 int currentNewXP = currentXP - nextLevelXP;
                 int currentNewLevel = currentLevel + 1;
-                int newNextLevelXP = nextLevelXP + (100 * currentNewLevel);
+                int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getAdditiveXpAmount() * currentNewLevel);
                 ItemStack mainhandStack = p.getInventory().getItemInMainHand();
                 ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
                 mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, currentNewLevel);
@@ -713,7 +721,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 mainhandStack.setItemMeta(mainhandMeta);
                 p.getInventory().setItemInMainHand(mainhandStack);
                 if(mainhandMeta.hasDisplayName()) {
-                    p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + " just leveled up to level " + currentNewLevel + "!");
+                    p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + ChatColor.AQUA + " just leveled up to level " + currentNewLevel + "!");
                 }else{
                     p.sendMessage(ChatColor.AQUA + "Your " + mainhandStack.getType().name().replace("_", " ").toLowerCase() + " just leveled up to level " + currentNewLevel + "!");
                 }
@@ -791,7 +799,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 if(currentXP >= nextLevelXP) {
                     int currentNewXP = currentXP - nextLevelXP;
                     int currentNewLevel = currentLevel + 1;
-                    int newNextLevelXP = nextLevelXP + (50 * currentNewLevel);
+                    int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getAdditiveXpAmount() * currentNewLevel);
                     ItemStack mainhandStack = p.getInventory().getItemInMainHand();
                     ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
                     mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, currentNewLevel);
@@ -800,7 +808,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                     mainhandStack.setItemMeta(mainhandMeta);
                     p.getInventory().setItemInMainHand(mainhandStack);
                     if(mainhandMeta.hasDisplayName()) {
-                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + " just leveled up to level " + currentNewLevel + "!");
+                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + ChatColor.AQUA + " just leveled up to level " + currentNewLevel + "!");
                     }else{
                         p.sendMessage(ChatColor.AQUA + "Your " + mainhandStack.getType().name().replace("_", " ").toLowerCase() + " just leveled up to level " + currentNewLevel + "!");
                     }
