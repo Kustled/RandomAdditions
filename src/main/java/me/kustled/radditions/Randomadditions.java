@@ -2,6 +2,7 @@ package me.kustled.radditions;
 
 import me.kustled.radditions.events.LevelCheckEvent;
 import me.kustled.radditions.files.XpConfigFile;
+import me.kustled.radditions.files.XpRewardFile;
 import me.kustled.radditions.util.DelayedTask;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -50,6 +51,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveConfig();
         XpConfigFile.getInstance().load();
+        XpRewardFile.getInstance().load();
 
         //aço itemstack
         ItemStack steel = new ItemStack(Material.IRON_INGOT);
@@ -614,15 +616,6 @@ public final class Randomadditions extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event){
-        if(!event.isCancelled()){
-          if(event.getBlock().getType().equals(Material.COAL_ORE) || event.getBlock().getType().equals(Material.IRON_ORE) || event.getBlock().getType().equals(Material.GOLD_ORE) || event.getBlock().getType().equals(Material.LAPIS_ORE) || event.getBlock().getType().equals(Material.REDSTONE_ORE) || event.getBlock().getType().equals(Material.DIAMOND_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_COAL_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_IRON_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_GOLD_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_LAPIS_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_REDSTONE_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_DIAMOND_ORE) || event.getBlock().getType().equals(Material.NETHER_GOLD_ORE) || event.getBlock().getType().equals(Material.ANCIENT_DEBRIS)){
-              event.getPlayer().sendMessage("you placed an ore!");
-          }
-        }
-    }
-
-    @EventHandler
     public void onBlockMine(BlockBreakEvent event){
         try{Player p = event.getPlayer();
         if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN)){
@@ -630,54 +623,54 @@ public final class Randomadditions extends JavaPlugin implements Listener {
             ItemMeta playerPickaxeMeta = playerPickaxe.getItemMeta();
             int playerPickaxeCurrentXP = playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER);
             if(event.getBlock().getType().equals(Material.COAL_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_COAL_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + 2);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickCoalXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+2) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickCoalXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.IRON_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_IRON_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 3);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickIronXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+3) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickIronXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.GOLD_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_GOLD_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 4);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickGoldXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+4) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickGoldXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.LAPIS_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_LAPIS_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 4);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickLapisXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+4) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickLapisXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.REDSTONE_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_REDSTONE_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 4);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickRedstoneXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+4) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickRedstoneXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.DIAMOND_ORE) || event.getBlock().getType().equals(Material.DEEPSLATE_DIAMOND_ORE)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 5);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickDiamondXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+5) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickDiamondXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.ANCIENT_DEBRIS)){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 10);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickNetheriteXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+10) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickNetheriteXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.STONE) || event.getBlock().getType().equals(Material.GRANITE) || event.getBlock().getType().equals(Material.ANDESITE) || event.getBlock().getType().equals(Material.DIORITE)){
                 Random rand = new Random();
                 if(rand.nextInt(9) == 1){
-                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + 1);
+                playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickStoneXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+1) | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickStoneXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));}
             }
         }}catch(NullPointerException ignored){}
@@ -688,7 +681,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
         try{if(event.getEntity().getKiller().getType().equals(EntityType.PLAYER)){
             Player p = event.getEntity().getKiller();
             if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN)){
-                int xpGained = ((int) event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() / 5);
+                int xpGained = ((int) event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() / XpRewardFile.getInstance().getKillRewardXP());
                 ItemStack mainHandStack = p.getInventory().getItemInMainHand();
                 ItemMeta mainHandMeta = mainHandStack.getItemMeta();
                 int currentXP = mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);

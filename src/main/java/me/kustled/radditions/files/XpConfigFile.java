@@ -1,7 +1,5 @@
 package me.kustled.radditions.files;
 
-
-
 import me.kustled.radditions.Randomadditions;
 import org.bukkit.configuration.file.YamlConfiguration;
 

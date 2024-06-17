@@ -1,0 +1,29 @@
+# This will set the XP reward that a player gets when
+# mining a block with a XP infused pickaxe.
+PICKAXE:
+  # NOTE: Because stone is so easy to mine, every time a player
+  # breaks it, they have a 1 in 10 chance of getting the XP.
+  # Default is 1.
+  stone-reward: 1
+  # The reward a player gets when mining coal. Default is 2.
+  coal-reward: 2
+  # The reward a player gets when mining iron. Default is 3.
+  iron-reward: 3
+  # The reward a player gets when mining lapis. Default is 4.
+  lapis-reward: 4
+  # The reward a player gets when mining redstone. Default is 4.
+  redstone-reward: 4
+  # The reward a player gets when mining gold. Default is 4.
+  gold-reward: 4
+  # The reward a player gets when mining diamond. Default is 5.
+  diamond-reward: 5
+  # The reward a player gets when mining ancient debris. Default is 10.
+  ancientdebris-reward: 10
+# This will set the XP reward that a player gets when
+# killing an entity with a XP infused sword.
+SWORD:
+  # This counts the ratio of XP you get based on the max health attribute
+  # of the entity the player killed. (Example: Using the default 5, the
+  # player would get (entity_max_health) divided by 5 amount of XP. So
+  # if an entity with max health being 100 is killed, they would get 20 XP.)
+  kill-reward: 5
