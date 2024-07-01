@@ -42,7 +42,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
         //configurar config
         FileConfiguration config = this.getConfig();
         List<String> headerS = new ArrayList<String>();
-        headerS.add("This is the default configuration file.");
+        headerS.add("This is the general configuration file.");
         headerS.add("You can edit if charged creepers spawn naturally, and");
         headerS.add("edit the chance of it happening (Default is 1 in 1024).");
         config.options().setHeader(headerS);
@@ -490,7 +490,6 @@ public final class Randomadditions extends JavaPlugin implements Listener {
             if(e.getEntityType().equals(EntityType.PLAYER)){
                 Player p = (Player) e.getEntity();
                 try {
-                    if(!p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "espadacobrecheck"), PersistentDataType.BOOLEAN) || !p.getInventory().getItemInMainHand().hasItemMeta()){
                     if (p.getInventory().getItem(EquipmentSlot.LEGS).getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "calcacobrecheck"), PersistentDataType.BOOLEAN)){
                         if(p.getInventory().getLeggings().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "calcacobretimercheck"), PersistentDataType.BOOLEAN)){
                             if(p.getInventory().getLeggings().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "chargingabilitycount"), PersistentDataType.INTEGER) < 3) {
@@ -522,7 +521,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                                 }, 40);
                             e.setCancelled(true);}
                         }
-                    }}
+                    }
                 }catch(NullPointerException ignored){}
             }
         }
@@ -558,7 +557,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getswordInitialXpAmount());
                       List<String> resultLore = changedResultStackMeta.getLore();
                       resultLore.add(ChatColor.AQUA + "Infused with XP");
                       changedResultStackMeta.setLore(resultLore);
@@ -574,7 +573,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getswordInitialXpAmount());
                       changedResultStackMeta.setLore(resultLore);
                       changedResultStack.setItemMeta(changedResultStackMeta);
                       event.setResult(changedResultStack);
@@ -588,7 +587,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getpickInitialXpAmount());
                       ArrayList<String> resultLore = (ArrayList<String>) changedResultStackMeta.getLore();
                       resultLore.add(ChatColor.AQUA + "Infused with XP");
                       changedResultStackMeta.setLore(resultLore);
@@ -604,13 +603,73 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN, true);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, 0);
                       changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, 0);
-                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getInitialXpAmount());
+                      changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getpickInitialXpAmount());
                       changedResultStackMeta.setLore(resultLore);
                       changedResultStack.setItemMeta(changedResultStackMeta);
                       event.setResult(changedResultStack);
                       event.getInventory().setRepairCost(10);
                   }
-              }
+              }else if (event.getInventory().getItem(0).getType().equals(Material.WOODEN_AXE) || event.getInventory().getItem(0).getType().equals(Material.STONE_AXE) || event.getInventory().getItem(0).getType().equals(Material.IRON_AXE) || event.getInventory().getItem(0).getType().equals(Material.GOLDEN_AXE) || event.getInventory().getItem(0).getType().equals(Material.DIAMOND_AXE) || event.getInventory().getItem(0).getType().equals(Material.NETHERITE_AXE)){
+                      if (event.getInventory().getItem(0).getItemMeta().hasLore()) {
+                          ItemStack changedResultStack = event.getInventory().getItem(0).clone();
+                          ItemMeta changedResultStackMeta = changedResultStack.getItemMeta();
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "xpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          ArrayList<String> resultLore = (ArrayList<String>) changedResultStackMeta.getLore();
+                          resultLore.add(ChatColor.AQUA + "Infused with XP");
+                          changedResultStackMeta.setLore(resultLore);
+                          changedResultStack.setItemMeta(changedResultStackMeta);
+                          event.setResult(changedResultStack);
+                          event.getInventory().setRepairCost(10);
+                      } else {
+                          ItemStack changedResultStack = event.getInventory().getItem(0).clone();
+                          ArrayList<String> resultLore = new ArrayList<String>();
+                          resultLore.add(ChatColor.AQUA + "Infused with XP");
+                          ItemMeta changedResultStackMeta = changedResultStack.getItemMeta();
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "xpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          changedResultStackMeta.setLore(resultLore);
+                          changedResultStack.setItemMeta(changedResultStackMeta);
+                          event.setResult(changedResultStack);
+                          event.getInventory().setRepairCost(10);
+                      }
+                  }else if (event.getInventory().getItem(0).getType().equals(Material.WOODEN_SHOVEL) || event.getInventory().getItem(0).getType().equals(Material.STONE_SHOVEL) || event.getInventory().getItem(0).getType().equals(Material.IRON_SHOVEL) || event.getInventory().getItem(0).getType().equals(Material.GOLDEN_SHOVEL) || event.getInventory().getItem(0).getType().equals(Material.DIAMOND_SHOVEL) || event.getInventory().getItem(0).getType().equals(Material.NETHERITE_SHOVEL)){
+                      if (event.getInventory().getItem(0).getItemMeta().hasLore()) {
+                          ItemStack changedResultStack = event.getInventory().getItem(0).clone();
+                          ItemMeta changedResultStackMeta = changedResultStack.getItemMeta();
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "xpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          ArrayList<String> resultLore = (ArrayList<String>) changedResultStackMeta.getLore();
+                          resultLore.add(ChatColor.AQUA + "Infused with XP");
+                          changedResultStackMeta.setLore(resultLore);
+                          changedResultStack.setItemMeta(changedResultStackMeta);
+                          event.setResult(changedResultStack);
+                          event.getInventory().setRepairCost(10);
+                      } else {
+                          ItemStack changedResultStack = event.getInventory().getItem(0).clone();
+                          ArrayList<String> resultLore = new ArrayList<String>();
+                          resultLore.add(ChatColor.AQUA + "Infused with XP");
+                          ItemMeta changedResultStackMeta = changedResultStack.getItemMeta();
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "xpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN, true);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, 0);
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          changedResultStackMeta.setLore(resultLore);
+                          changedResultStack.setItemMeta(changedResultStackMeta);
+                          event.setResult(changedResultStack);
+                          event.getInventory().setRepairCost(10);
+                      }
+                  }
               }
         }}catch(NullPointerException ignored){}
     }
@@ -666,14 +725,94 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }else if(event.getBlock().getType().equals(Material.STONE) || event.getBlock().getType().equals(Material.GRANITE) || event.getBlock().getType().equals(Material.ANDESITE) || event.getBlock().getType().equals(Material.DIORITE)){
                 Random rand = new Random();
-                if(rand.nextInt(9) == 1){
+                if(rand.nextInt(10) == 1){
                 playerPickaxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER, playerPickaxeCurrentXP + XpRewardFile.getInstance().getPickStoneXP());
                 playerPickaxe.setItemMeta(playerPickaxeMeta);
                 p.getInventory().setItemInMainHand(playerPickaxe);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER) + "/" + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getPickStoneXP() + ") | Level: " + playerPickaxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));}
             }
-        }}catch(NullPointerException ignored){}
+        }else if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN)){
+            ItemStack playerAxe = p.getInventory().getItemInMainHand();
+            ItemMeta playerAxeMeta = playerAxe.getItemMeta();
+            int playerAxeCurrentXP = playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER);
+            if(event.getBlock().getType().equals(Material.OAK_LOG) || event.getBlock().getType().equals(Material.OAK_WOOD)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeOakXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeOakXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.BIRCH_LOG) || event.getBlock().getType().equals(Material.BIRCH_WOOD)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeBirchXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeBirchXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.SPRUCE_LOG) || event.getBlock().getType().equals(Material.SPRUCE_WOOD)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeSpruceXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeSpruceXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.ACACIA_LOG) || event.getBlock().getType().equals(Material.ACACIA_WOOD)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeAcaciaXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeAcaciaXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.DARK_OAK_LOG) || event.getBlock().getType().equals(Material.DARK_OAK_WOOD)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeDarkOakXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeDarkOakXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.CRIMSON_STEM)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeCrimsonXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeCrimsonXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.WARPED_STEM)){
+                playerAxeMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, playerAxeCurrentXP + XpRewardFile.getInstance().getAxeWarpedXP());
+                playerAxe.setItemMeta(playerAxeMeta);
+                p.getInventory().setItemInMainHand(playerAxe);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getAxeWarpedXP() + ") | Level: " + playerAxeMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }
+        }else if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN)){
+            ItemStack playerShovel = p.getInventory().getItemInMainHand();
+            ItemMeta playerShovelMeta = playerShovel.getItemMeta();
+            int playerShovelCurrentXP = playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER);
+            if(event.getBlock().getType().equals(Material.DIRT)){
+                Random rand = new Random();
+                if(rand.nextInt(10) == 1){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovDirtXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovDirtXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));}
+            }else if(event.getBlock().getType().equals(Material.GRASS_BLOCK)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovGrassXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovGrassXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.PODZOL)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovPodzolXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovPodzolXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.MYCELIUM)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovMyceliumXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovMyceliumXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }
+        }
+
+        }catch(NullPointerException ignored){}
     }
 
     @EventHandler
@@ -690,6 +829,16 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 p.getInventory().setItemInMainHand(mainHandStack);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER) + "/" + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER) + " (+" + xpGained + ") | Level: " + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN)){
+                int xpGained = ((int) event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() / XpRewardFile.getInstance().getAxeKillRewardXP());
+                ItemStack mainHandStack = p.getInventory().getItemInMainHand();
+                ItemMeta mainHandMeta = mainHandStack.getItemMeta();
+                int currentXP = mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);
+                mainHandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, currentXP + xpGained);
+                mainHandStack.setItemMeta(mainHandMeta);
+                p.getInventory().setItemInMainHand(mainHandStack);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER) + "/" + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER) + " (+" + xpGained + ") | Level: " + mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }
         }}catch(NullPointerException ignored){}
     }
@@ -698,6 +847,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
     public void onXpGain(LevelCheckEvent e){
         Player p = e.getCheckPlayer();
         try{
+            //pickaxe
             if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "pxpinfused"), PersistentDataType.BOOLEAN)){
             int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "pickxppoint"), PersistentDataType.INTEGER);
             int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "pickxppointNext"), PersistentDataType.INTEGER);
@@ -705,7 +855,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
             if(currentXP >= nextLevelXP) {
                 int currentNewXP = currentXP - nextLevelXP;
                 int currentNewLevel = currentLevel + 1;
-                int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getAdditiveXpAmount() * currentNewLevel);
+                int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getpickAdditiveXpAmount() * currentNewLevel);
                 ItemStack mainhandStack = p.getInventory().getItemInMainHand();
                 ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
                 mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "pickxplevel"), PersistentDataType.INTEGER, currentNewLevel);
@@ -784,7 +934,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                     p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
                 }
             }
-
+            //sword
             }else if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "sxpinfused"), PersistentDataType.BOOLEAN)){
                 int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);
                 int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER);
@@ -792,7 +942,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 if(currentXP >= nextLevelXP) {
                     int currentNewXP = currentXP - nextLevelXP;
                     int currentNewLevel = currentLevel + 1;
-                    int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getAdditiveXpAmount() * currentNewLevel);
+                    int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getswordAdditiveXpAmount() * currentNewLevel);
                     ItemStack mainhandStack = p.getInventory().getItemInMainHand();
                     ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
                     mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER, currentNewLevel);
@@ -891,6 +1041,209 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                         p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
                     }
                 }
+                //axe
+            }else if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN)){
+                int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);
+                int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER);
+                int currentLevel = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER);
+                if(currentXP >= nextLevelXP) {
+                    int currentNewXP = currentXP - nextLevelXP;
+                    int currentNewLevel = currentLevel + 1;
+                    int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getaxeAdditiveXpAmount() * currentNewLevel);
+                    ItemStack mainhandStack = p.getInventory().getItemInMainHand();
+                    ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER, currentNewLevel);
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, currentNewXP);
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER, newNextLevelXP);
+                    mainhandStack.setItemMeta(mainhandMeta);
+                    p.getInventory().setItemInMainHand(mainhandStack);
+                    if(mainhandMeta.hasDisplayName()) {
+                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + ChatColor.AQUA + " just leveled up to level " + currentNewLevel + "!");
+                    }else{
+                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandStack.getType().name().replace("_", " ").toLowerCase() + " just leveled up to level " + currentNewLevel + "!");
+                    }
+                    if(currentNewLevel == 2 || currentNewLevel == 6 || currentNewLevel > 15){
+                        //add 1 level of unbreaking
+                        if(mainhandMeta.hasEnchant(Enchantment.DURABILITY)){
+                            int newUnbreakingLevel = mainhandMeta.getEnchantLevel(Enchantment.DURABILITY) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DURABILITY);
+                            mainhandMeta.addEnchant(Enchantment.DURABILITY, newUnbreakingLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Unbreaking Level");
+                    }else if(currentNewLevel == 1 || currentNewLevel == 3 || currentNewLevel == 5 || currentNewLevel == 7 || currentNewLevel == 9){
+                        //add 1 level of sharpness or efficiency
+                        if(mainhandMeta.hasEnchant(Enchantment.DAMAGE_ALL)){
+                            int newSharpnessLevel = mainhandMeta.getEnchantLevel(Enchantment.DAMAGE_ALL) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DAMAGE_ALL);
+                            mainhandMeta.addEnchant(Enchantment.DAMAGE_ALL, newSharpnessLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Sharpness Level");
+                        }else if(mainhandMeta.hasEnchant(Enchantment.DIG_SPEED)){
+                            int newEfficiencyLevel = mainhandMeta.getEnchantLevel(Enchantment.DIG_SPEED) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DIG_SPEED);
+                            mainhandMeta.addEnchant(Enchantment.DIG_SPEED, newEfficiencyLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Efficiency Level");
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Sharpness Level");
+                        }
+                    }else if(currentNewLevel == 4 || currentNewLevel == 8 || currentNewLevel == 10){
+                        //add 1 level of fortune
+                        if(mainhandMeta.hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)){
+                            int newFortuneLevel = mainhandMeta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.LOOT_BONUS_BLOCKS);
+                            mainhandMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, newFortuneLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Fortune Level");
+                    }else if(currentNewLevel == 13){
+                        //add 1 level of looting
+                        if(mainhandMeta.hasEnchant(Enchantment.LOOT_BONUS_MOBS)){
+                            int newLootingLevel = mainhandMeta.getEnchantLevel(Enchantment.LOOT_BONUS_MOBS) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.LOOT_BONUS_MOBS);
+                            mainhandMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, newLootingLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.LOOT_BONUS_MOBS, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Looting Level");
+                    }else if(currentNewLevel == 11 || currentNewLevel == 12 || currentNewLevel == 14){
+                        //add 1 level of smite
+                        if(mainhandMeta.hasEnchant(Enchantment.DAMAGE_UNDEAD)){
+                            int newSmiteLevel = mainhandMeta.getEnchantLevel(Enchantment.DAMAGE_UNDEAD) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DAMAGE_UNDEAD);
+                            mainhandMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, newSmiteLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.DAMAGE_UNDEAD, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Smite Level");
+                    }else if(currentNewLevel == 15){
+                        //add 1 level of mending
+                        if(mainhandMeta.hasEnchant(Enchantment.MENDING)){
+                            int newSmiteLevel = mainhandMeta.getEnchantLevel(Enchantment.MENDING) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.MENDING);
+                            mainhandMeta.addEnchant(Enchantment.MENDING, newSmiteLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.MENDING, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
+                    }
+                }
+                //shovel
+            }else if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN)){
+                int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER);
+                int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER);
+                int currentLevel = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER);
+                if(currentXP >= nextLevelXP) {
+                    int currentNewXP = currentXP - nextLevelXP;
+                    int currentNewLevel = currentLevel + 1;
+                    int newNextLevelXP = nextLevelXP + (XpConfigFile.getInstance().getshovelAdditiveXpAmount() * currentNewLevel);
+                    ItemStack mainhandStack = p.getInventory().getItemInMainHand();
+                    ItemMeta mainhandMeta = p.getInventory().getItemInMainHand().getItemMeta();
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER, currentNewLevel);
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, currentNewXP);
+                    mainhandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, newNextLevelXP);
+                    mainhandStack.setItemMeta(mainhandMeta);
+                    p.getInventory().setItemInMainHand(mainhandStack);
+                    if(mainhandMeta.hasDisplayName()) {
+                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandMeta.getDisplayName() + ChatColor.AQUA + " just leveled up to level " + currentNewLevel + "!");
+                    }else{
+                        p.sendMessage(ChatColor.AQUA + "Your " + mainhandStack.getType().name().replace("_", " ").toLowerCase() + " just leveled up to level " + currentNewLevel + "!");
+                    }
+                    if(currentNewLevel == 1 || currentNewLevel == 4 || currentNewLevel == 7 || currentNewLevel > 10){
+                        //add 1 level of efficiency
+                        if(mainhandMeta.hasEnchant(Enchantment.DIG_SPEED)){
+                            int newEfficiencyLevel = mainhandMeta.getEnchantLevel(Enchantment.DIG_SPEED) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DIG_SPEED);
+                            mainhandMeta.addEnchant(Enchantment.DIG_SPEED, newEfficiencyLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Efficiency Level");
+                    } else if(currentNewLevel == 2 || currentNewLevel == 5 || currentNewLevel == 8){
+                        //add 1 level of unbreaking
+                        if(mainhandMeta.hasEnchant(Enchantment.DURABILITY)){
+                            int newUnbreakingLevel = mainhandMeta.getEnchantLevel(Enchantment.DURABILITY) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.DURABILITY);
+                            mainhandMeta.addEnchant(Enchantment.DURABILITY, newUnbreakingLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.DURABILITY, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Unbreaking Level");
+                    } else if(currentNewLevel == 3 || currentNewLevel == 6 || currentNewLevel == 9){
+                        //add 1 level of fortune or silk touch
+                        if(mainhandMeta.hasEnchant(Enchantment.LOOT_BONUS_BLOCKS)){
+                            int newUnbreakingLevel = mainhandMeta.getEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.LOOT_BONUS_BLOCKS);
+                            mainhandMeta.addEnchant(Enchantment.LOOT_BONUS_BLOCKS, newUnbreakingLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Fortune Level");
+                        }else if(mainhandMeta.hasEnchant(Enchantment.SILK_TOUCH)){
+                            int newSilkLevel = mainhandMeta.getEnchantLevel(Enchantment.SILK_TOUCH) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.SILK_TOUCH);
+                            mainhandMeta.addEnchant(Enchantment.SILK_TOUCH, newSilkLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Silk Touch Level");
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.SILK_TOUCH, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                            p.sendMessage(ChatColor.AQUA + "Reward: +1 Silk Touch Level");
+                        }
+                    } else if(currentNewLevel == 10){
+                        //add 1 level of mending
+                        if(mainhandMeta.hasEnchant(Enchantment.MENDING)){
+                            int newEfficiencyLevel = mainhandMeta.getEnchantLevel(Enchantment.MENDING) + 1;
+                            mainhandMeta.removeEnchant(Enchantment.MENDING);
+                            mainhandMeta.addEnchant(Enchantment.MENDING, newEfficiencyLevel, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }else{
+                            mainhandMeta.addEnchant(Enchantment.MENDING, 1, true);
+                            mainhandStack.setItemMeta(mainhandMeta);
+                            p.getInventory().setItemInMainHand(mainhandStack);
+                        }
+                        p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
+                    }
+                }
+
             }
         }catch(NullPointerException ignored){}
 

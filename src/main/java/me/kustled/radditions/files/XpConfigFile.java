@@ -9,8 +9,14 @@ public class XpConfigFile {
     private final static XpConfigFile instance = new XpConfigFile();
     private File file;
     private YamlConfiguration config;
-    private int initialXpAmount;
-    private int additiveXpAmount;
+    private int pickInitialXpAmount;
+    private int pickAdditiveXpAmount;
+    private int swordInitialXpAmount;
+    private int swordAdditiveXpAmount;
+    private int shovelInitialXpAmount;
+    private int shovelAdditiveXpAmount;
+    private int axeInitialXpAmount;
+    private int axeAdditiveXpAmount;
 
     private XpConfigFile(){
 
@@ -31,8 +37,14 @@ public class XpConfigFile {
         config.options().parseComments(true);
         try{
             config.load(file);
-            initialXpAmount = config.getInt("XP.initial-xp-amount");
-            additiveXpAmount = config.getInt("XP.additive-xp-amount");
+            pickInitialXpAmount = config.getInt("PICK.initial-xp-amount");
+            pickAdditiveXpAmount = config.getInt("PICK.additive-xp-amount");
+            swordInitialXpAmount = config.getInt("SWORD.initial-xp-amount");
+            swordAdditiveXpAmount = config.getInt("SWORD.additive-xp-amount");
+            shovelInitialXpAmount = config.getInt("SHOVEL.initial-xp-amount");
+            shovelAdditiveXpAmount = config.getInt("SHOVEL.additive-xp-amount");
+            axeInitialXpAmount = config.getInt("AXE.initial-xp-amount");
+            axeAdditiveXpAmount = config.getInt("AXE.additive-xp-amount");
         }catch(Exception e){e.printStackTrace();}
     }
 
@@ -47,24 +59,77 @@ public class XpConfigFile {
         save();
     }
 
-    public int getInitialXpAmount(){
-        setInitialXpAmount(initialXpAmount);
-        return initialXpAmount;
+    public int getpickInitialXpAmount(){
+        setpickInitialXpAmount(pickInitialXpAmount);
+        return pickInitialXpAmount;
+    }
+    public void setpickInitialXpAmount(int pickInitialXpAmount){
+        this.pickInitialXpAmount = pickInitialXpAmount;
+        set("PICK.initial-xp-amount", pickInitialXpAmount);
     }
 
-    public void setInitialXpAmount(int initialXpAmount){
-        this.initialXpAmount = initialXpAmount;
-        set("XP.initial-xp-amount", initialXpAmount);
+    public int getpickAdditiveXpAmount(){
+        setpickAdditiveXpAmount(pickAdditiveXpAmount);
+        return pickAdditiveXpAmount;
+    }
+    public void setpickAdditiveXpAmount(int pickAdditiveXpAmount){
+        this.pickAdditiveXpAmount = pickAdditiveXpAmount;
+        set("PICK.additive-xp-amount", pickAdditiveXpAmount);
     }
 
-    public int getAdditiveXpAmount(){
-        setAdditiveXpAmount(additiveXpAmount);
-        return additiveXpAmount;
+    public int getswordInitialXpAmount(){
+        setswordInitialXpAmount(swordInitialXpAmount);
+        return swordInitialXpAmount;
+    }
+    public void setswordInitialXpAmount(int swordInitialXpAmount){
+        this.swordInitialXpAmount = swordInitialXpAmount;
+        set("SWORD.initial-xp-amount", swordInitialXpAmount);
     }
 
-    public void setAdditiveXpAmount(int additiveXpAmount){
-        this.additiveXpAmount = additiveXpAmount;
-        set("XP.additive-xp-amount", additiveXpAmount);
+    public int getswordAdditiveXpAmount(){
+        setswordAdditiveXpAmount(swordAdditiveXpAmount);
+        return swordAdditiveXpAmount;
+    }
+
+    public void setswordAdditiveXpAmount(int swordAdditiveXpAmount){
+        this.swordAdditiveXpAmount = swordAdditiveXpAmount;
+        set("SWORD.additive-xp-amount", swordAdditiveXpAmount);
+    }
+
+    public int getshovelInitialXpAmount(){
+        setshovelInitialXpAmount(shovelInitialXpAmount);
+        return shovelInitialXpAmount;
+    }
+    public void setshovelInitialXpAmount(int shovelInitialXpAmount){
+        this.shovelInitialXpAmount = shovelInitialXpAmount;
+        set("SHOVEL.initial-xp-amount", shovelInitialXpAmount);
+    }
+
+    public int getshovelAdditiveXpAmount(){
+        setshovelAdditiveXpAmount(shovelAdditiveXpAmount);
+        return shovelAdditiveXpAmount;
+    }
+    public void setshovelAdditiveXpAmount(int shovelAdditiveXpAmount){
+        this.shovelAdditiveXpAmount = shovelAdditiveXpAmount;
+        set("SHOVEL.additive-xp-amount", shovelAdditiveXpAmount);
+    }
+
+    public int getaxeInitialXpAmount(){
+        setaxeInitialXpAmount(axeInitialXpAmount);
+        return axeInitialXpAmount;
+    }
+    public void setaxeInitialXpAmount(int axeInitialXpAmount){
+        this.axeInitialXpAmount = axeInitialXpAmount;
+        set("AXE.initial-xp-amount", axeInitialXpAmount);
+    }
+
+    public int getaxeAdditiveXpAmount(){
+        setaxeAdditiveXpAmount(axeAdditiveXpAmount);
+        return axeAdditiveXpAmount;
+    }
+    public void setaxeAdditiveXpAmount(int axeAdditiveXpAmount){
+        this.axeAdditiveXpAmount = axeAdditiveXpAmount;
+        set("AXE.additive-xp-amount", axeAdditiveXpAmount);
     }
 
     public static XpConfigFile getInstance() {

@@ -27,3 +27,36 @@ SWORD:
   # player would get (entity_max_health) divided by 5 amount of XP. So
   # if an entity with max health being 100 is killed, they would get 20 XP.)
   kill-reward: 5
+# This will set the XP reward that a player gets when
+# killing an entity or when breaking a log with a XP
+# infused axe.
+AXE:
+  # Works the same way as the sword kill reward.
+  kill-reward: 5
+  # The reward a player gets when breaking oak logs. Default is 4.
+  oak-reward: 4
+  # The reward a player gets when breaking birch logs. Default is 4.
+  birch-reward: 4
+  # The reward a player gets when breaking spruce logs. Default is 4.
+  spruce-reward: 4
+  # The reward a player gets when breaking acacia logs. Default is 4.
+  acacia-reward: 4
+  # The reward a player gets when breaking dark oak logs. Default is 4.
+  dark-oak-reward: 4
+  # The reward a player gets when breaking crimson stems. Default is 6.
+  crimson-stem-reward: 6
+  # The reward a player gets when breaking warped stems. Default is 6.
+  warped-stem-reward: 6
+# This will set the XP reward that a player gets when
+# mining a block with a XP infused shovel.
+SHOVEL:
+  # NOTE: Because dirt is so common and easy to mine, every time a
+  # player breaks it, they have a 1 in 10 chance of getting the XP.
+  # Default is 1.
+  dirt-reward: 1
+  # The reward a player gets when mining a grass block. Default is 1.
+  grass-reward: 1
+  # The reward a player gets when mining podzol. Default is 4.
+  podzol-reward: 4
+  # The reward a player gets when mining mycelium. Default is 6.
+  mycelium-reward: 6
