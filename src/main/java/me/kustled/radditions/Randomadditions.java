@@ -548,7 +548,8 @@ public final class Randomadditions extends JavaPlugin implements Listener {
         //try to define crafting for infusing xp with the anvil
         try{
           if(!event.getInventory().getItem(0).getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "xpinfused"), PersistentDataType.BOOLEAN)){
-              if(event.getInventory().getItem(1).getType().equals(Material.EXPERIENCE_BOTTLE)){
+              ItemStack expBottle = new ItemStack(Material.EXPERIENCE_BOTTLE);
+              if(event.getInventory().getItem(1).equals(expBottle)){
                   if (event.getInventory().getItem(0).getType().equals(Material.WOODEN_SWORD) || event.getInventory().getItem(0).getType().equals(Material.STONE_SWORD) || event.getInventory().getItem(0).getType().equals(Material.IRON_SWORD) || event.getInventory().getItem(0).getType().equals(Material.GOLDEN_SWORD) || event.getInventory().getItem(0).getType().equals(Material.DIAMOND_SWORD) || event.getInventory().getItem(0).getType().equals(Material.NETHERITE_SWORD)){
                       if (event.getInventory().getItem(0).getItemMeta().hasLore()) {
                       ItemStack changedResultStack = event.getInventory().getItem(0).clone();
@@ -647,7 +648,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN, true);
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER, 0);
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, 0);
-                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getshovelInitialXpAmount());
                           ArrayList<String> resultLore = (ArrayList<String>) changedResultStackMeta.getLore();
                           resultLore.add(ChatColor.AQUA + "Infused with XP");
                           changedResultStackMeta.setLore(resultLore);
@@ -663,7 +664,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN, true);
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER, 0);
                           changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, 0);
-                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getaxeInitialXpAmount());
+                          changedResultStackMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER, XpConfigFile.getInstance().getshovelInitialXpAmount());
                           changedResultStackMeta.setLore(resultLore);
                           changedResultStack.setItemMeta(changedResultStackMeta);
                           event.setResult(changedResultStack);
@@ -809,6 +810,24 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 p.getInventory().setItemInMainHand(playerShovel);
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovMyceliumXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
                 Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.SAND)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovSandXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovSandXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.RED_SAND)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovRedSandXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovRedSandXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
+            }else if(event.getBlock().getType().equals(Material.GRAVEL)){
+                playerShovelMeta.getPersistentDataContainer().set(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER, playerShovelCurrentXP + XpRewardFile.getInstance().getShovGravelXP());
+                playerShovel.setItemMeta(playerShovelMeta);
+                p.getInventory().setItemInMainHand(playerShovel);
+                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "XP: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER) + "/" + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER) + " (+" + XpRewardFile.getInstance().getShovGravelXP() + ") | Level: " + playerShovelMeta.getPersistentDataContainer().get(new NamespacedKey(this, "shovelxplevel"), PersistentDataType.INTEGER)));
+                Bukkit.getServer().getPluginManager().callEvent(new LevelCheckEvent(p));
             }
         }
 
@@ -833,7 +852,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                 int xpGained = ((int) event.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() / XpRewardFile.getInstance().getAxeKillRewardXP());
                 ItemStack mainHandStack = p.getInventory().getItemInMainHand();
                 ItemMeta mainHandMeta = mainHandStack.getItemMeta();
-                int currentXP = mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);
+                int currentXP = mainHandMeta.getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER);
                 mainHandMeta.getPersistentDataContainer().set(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER, currentXP + xpGained);
                 mainHandStack.setItemMeta(mainHandMeta);
                 p.getInventory().setItemInMainHand(mainHandStack);
@@ -1041,11 +1060,11 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                         p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
                     }
                 }
-                //axe
+            //axe
             }else if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "axpinfused"), PersistentDataType.BOOLEAN)){
-                int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppoint"), PersistentDataType.INTEGER);
-                int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxppointNext"), PersistentDataType.INTEGER);
-                int currentLevel = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "swordxplevel"), PersistentDataType.INTEGER);
+                int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "axexppoint"), PersistentDataType.INTEGER);
+                int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "axexppointNext"), PersistentDataType.INTEGER);
+                int currentLevel = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "axexplevel"), PersistentDataType.INTEGER);
                 if(currentXP >= nextLevelXP) {
                     int currentNewXP = currentXP - nextLevelXP;
                     int currentNewLevel = currentLevel + 1;
@@ -1156,7 +1175,7 @@ public final class Randomadditions extends JavaPlugin implements Listener {
                         p.sendMessage(ChatColor.AQUA + "Reward: +1 Mending Level");
                     }
                 }
-                //shovel
+            //shovel
             }else if(p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(this, "svxpinfused"), PersistentDataType.BOOLEAN)){
                 int currentXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppoint"), PersistentDataType.INTEGER);
                 int nextLevelXP = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(this, "shovelxppointNext"), PersistentDataType.INTEGER);

@@ -60,3 +60,9 @@ SHOVEL:
   podzol-reward: 4
   # The reward a player gets when mining mycelium. Default is 6.
   mycelium-reward: 6
+  # The reward a player gets when mining sand. Default is 2.
+  sand-reward: 2
+  # The reward a player gets when mining red sand. Default is 3.
+  red-sand-reward: 3
+  # The reward a player gets when mining gravel. Default is 2.
+  gravel-reward: 2

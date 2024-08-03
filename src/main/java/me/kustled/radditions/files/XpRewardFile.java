@@ -30,6 +30,9 @@ public class XpRewardFile {
     private int shovGrassXP;
     private int shovPodzolXP;
     private int shovMyceliumXP;
+    private int shovSandXP;
+    private int shovRedSandXP;
+    private int shovGravelXP;
 
     private XpRewardFile(){}
 
@@ -69,6 +72,9 @@ public class XpRewardFile {
             shovGrassXP = config.getInt("SHOVEL.grass-reward");
             shovPodzolXP = config.getInt("SHOVEL.podzol-reward");
             shovMyceliumXP = config.getInt("SHOVEL.mycelium-reward");
+            shovSandXP = config.getInt("SHOVEL.sand-reward");
+            shovRedSandXP = config.getInt("SHOVEL.red-sand-reward");
+            shovGravelXP = config.getInt("SHOVEL.gravel-reward");
         }catch(Exception e){e.printStackTrace();}
     }
 
@@ -188,6 +194,21 @@ public class XpRewardFile {
         return shovMyceliumXP;
     }
 
+    public int getShovSandXP(){
+        setShovSandXP(shovSandXP);
+        return shovSandXP;
+    }
+
+    public int getShovRedSandXP(){
+        setShovRedSandXP(shovRedSandXP);
+        return shovRedSandXP;
+    }
+
+    public int getShovGravelXP(){
+        setShovGravelXP(shovGravelXP);
+        return shovGravelXP;
+    }
+
     public void setPickStoneXP(int pickStoneXP){
         this.pickStoneXP = pickStoneXP;
         set("PICK.stone-reward", pickStoneXP);
@@ -291,6 +312,21 @@ public class XpRewardFile {
     public void setShovMyceliumXP(int shovMyceliumXP){
         this.shovMyceliumXP = shovMyceliumXP;
         set("SHOVEL.mycelium-reward", shovMyceliumXP);
+    }
+
+    public void setShovSandXP(int shovSandXP){
+        this.shovSandXP = shovSandXP;
+        set("SHOVEL.sand-reward", shovSandXP);
+    }
+
+    public void setShovRedSandXP(int shovRedSandXP){
+        this.shovRedSandXP = shovRedSandXP;
+        set("SHOVEL.red-sand-reward", shovRedSandXP);
+    }
+
+    public void setShovGravelXP(int shovGravelXP){
+        this.shovGravelXP = shovGravelXP;
+        set("SHOVEL.gravel-reward", shovGravelXP);
     }
 
     public static XpRewardFile getInstance() {
